@@ -1,0 +1,43 @@
+@model List<InvoiceApp.Models.Invoice>
+
+@{
+    ViewBag.Title = "Invoices";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<h2>Invoices</h2>
+
+<table>
+    <tr>
+        <th>Invoice ID</th>
+        <th>Customer</th>
+        <th>Amount</th>
+        <th>Actions</th>
+    </tr>
+    @foreach (var invoice in Model)
+    {
+        <tr>
+            <td>@invoice.Id</td>
+            <td>@invoice.Customer</td>
+            <td>@invoice.Amount</td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = invoice.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = invoice.Id })
+            </td>
+        </tr>
+    }
+</table>
+
+<div class="pagination">
+    @for (int i = 1; i <= ViewBag.TotalPages; i++)
+    {
+        <a class="page-link @(i == ViewBag.CurrentPage ? "active" : "")"
+           href="@Url.Action("Index", new { pagenumber = i })">
+            @i
+        </a>
+    }
+</div>
+
+<p>@Html.ActionLink("Add Invoice", "Add")</p>

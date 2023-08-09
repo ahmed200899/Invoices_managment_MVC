@@ -1,0 +1,28 @@
+@model InvoiceApp.Models.Invoice
+
+@{
+    ViewBag.Title = "Edit Invoice";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit Invoice</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary()
+
+    @Html.HiddenFor(model => model.Id)
+
+    <div>
+        <label for="Customer">Customer:</label>
+        @Html.EditorFor(model => model.Customer)
+    </div>
+    <div>
+        <label for="Amount">Amount:</label>
+        @Html.EditorFor(model => model.Amount)
+    </div>
+
+    <button type="submit">Save Changes</button>
+}
+
+@Html.ActionLink("Back to List", "Index")
