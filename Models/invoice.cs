@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System;
 
 namespace InvoiceApp.Models
 {
@@ -9,8 +10,9 @@ namespace InvoiceApp.Models
         [Required(ErrorMessage = "Customer name is required.")]
         public string Customer { get; set; }
 
-        [Required(ErrorMessage = "Amount is required.")]
-        [Range(0.01, double.MaxValue, ErrorMessage = "Amount must be greater than 0.")]
-        public decimal Amount { get; set; }
+        [Display(Name = "Invoice Date")]
+        [DataType(DataType.Date)]
+        public DateTime InvoiceDate { get; set; }
+
     }
 }

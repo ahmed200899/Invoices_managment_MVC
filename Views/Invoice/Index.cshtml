@@ -7,21 +7,21 @@
 
 
 
-<h2>Invoices</h2>
+<h1>Invoices</h1>
 
 <table>
     <tr>
-        <th>Invoice ID</th>
-        <th>Customer</th>
-        <th>Amount</th>
-        <th>Actions</th>
+        <th>    Invoice ID          </th>
+        <th>    Customer      </th>
+        <th>    Date        </th>
+        <th>    Actions  </th>
     </tr>
     @foreach (var invoice in Model)
     {
         <tr>
             <td>@invoice.Id</td>
+            <td>@invoice.InvoiceDate</td>
             <td>@invoice.Customer</td>
-            <td>@invoice.Amount</td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = invoice.Id }) |
                 @Html.ActionLink("Delete", "Delete", new { id = invoice.Id })
