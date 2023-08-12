@@ -52,6 +52,7 @@ namespace InvoiceApp
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Invoice}/{action=Index}/{id?}");
+                
             });
         }
     }

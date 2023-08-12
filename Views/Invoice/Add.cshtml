@@ -1,4 +1,4 @@
-@model InvoiceApp.Models.Invoice
+@model InvoiceApp.Models.CreateInvoiceViewModel
 
 @{
     ViewBag.Title = "Add Invoice";
@@ -13,18 +13,66 @@
 
     <div>
         <label for="Customer">Customer:</label>
-        @Html.EditorFor(model => model.Customer)
+        @Html.EditorFor(model => model.Invoice.Customer)
     </div>
     <div>
         <label for="Id">Id:</label>
-        @Html.EditorFor(model => model.Id)
+        @Html.EditorFor(model => model.Invoice.Id)
     </div>
     <div>
         <label for="InvoiceDate">InvoiceDate:</label>
-        @Html.EditorFor(model => model.InvoiceDate)
+        @Html.EditorFor(model => model.Invoice.InvoiceDate)
     </div>
 
+    <div class="form-group">
+
+        <label for="SelectedItemIds">Select Items:</label>
+        @Html.DropDownListFor(model => model.AvailableItems,ViewBag.groceryItems as SelectList,  new { @class = "form-control", @onChange  =  "SelectedValue(this)"} )
+
+        <label for "itemprice"> Item Price</label>
+        <input type="text" id="ItemPrice" class="form-control" readonly> 
+
+        <label for="amount">Amount:</label>
+        @Html.EditorFor(model => model.Invoice.Amount, new { htmlAttributes = new { @class = "form-control", id = "Amount", onchange = "UpdateTotalPrice()" } })
+
+        <label for "TotalPrice"> Total Price</label>
+        <input type="text" id="TotalPrice" class="form-control" readonly> 
+    </div>
+
+
     <button type="submit">Add</button>
+    
+
+    
 }
+
+<style>
+    .form-control {
+        width: 170px; 
+        height: 35px; 
+        font-size: 14px; 
+        display: inline-block;
+        margin-right: 10px;
+    }
+    #ItemPrice {
+        width: 80px;
+    }
+</style>
+<script>
+    var itemPriceValue = 0; 
+    function SelectedValue(selecteditem) {
+        var selectedprice = selecteditem.value;
+        document.getElementById("ItemPrice").value = selectedprice;
+        itemPriceValue = parseFloat(selectedprice);
+        UpdateTotalPrice(); 
+    }
+
+    function UpdateTotalPrice() {
+        var amount = parseFloat(document.getElementById("Amount").value);
+        var totalPrice = amount * itemPriceValue; 
+        document.getElementById("TotalPrice").value = totalPrice.toFixed(2); 
+    }
+</script>
+
 
 @Html.ActionLink("Back to List", "Index")

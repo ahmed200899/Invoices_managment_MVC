@@ -22,7 +22,17 @@
         @Html.EditorFor(model => model.InvoiceDate)
     </div>
 
+
     <button type="submit">Save Changes</button>
 }
 
 @Html.ActionLink("Back to List", "Index")
+
+
+<script>
+    $(document).ready(function () {
+        $('#addItemButton').click(function () {
+            window.location.href = '@Url.Action("AddItem", "YourControllerName")';
+        });
+    });
+</script>
