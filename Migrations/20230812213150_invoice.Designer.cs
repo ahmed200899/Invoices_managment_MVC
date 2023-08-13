@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InvoiceApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230812004841_invoices")]
-    partial class invoices
+    [Migration("20230812213150_invoice")]
+    partial class invoice
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -22,9 +22,6 @@ namespace InvoiceApp.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Amount")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Customer")
@@ -50,6 +47,9 @@ namespace InvoiceApp.Migrations
                     b.Property<int>("ItemId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("Amount")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("InvoiceId", "ItemId");
 
                     b.HasIndex("ItemId");
@@ -72,6 +72,38 @@ namespace InvoiceApp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Items");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 49,
+                            Itemname = "Milk",
+                            itemprice = 40f
+                        },
+                        new
+                        {
+                            Id = 50,
+                            Itemname = "Rice",
+                            itemprice = 50f
+                        },
+                        new
+                        {
+                            Id = 51,
+                            Itemname = "cheese",
+                            itemprice = 20f
+                        },
+                        new
+                        {
+                            Id = 52,
+                            Itemname = "Apples",
+                            itemprice = 100f
+                        },
+                        new
+                        {
+                            Id = 53,
+                            Itemname = "orange",
+                            itemprice = 70f
+                        });
                 });
 
             modelBuilder.Entity("InvoiceApp.Models.InvoiceItem", b =>

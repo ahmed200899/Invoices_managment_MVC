@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace InvoiceApp.Migrations
 {
-    public partial class invoices : Migration
+    public partial class invoice : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,7 +14,6 @@ namespace InvoiceApp.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Customer = table.Column<string>(type: "TEXT", nullable: false),
-                    Amount = table.Column<int>(type: "INTEGER", nullable: false),
                     TotalPrice = table.Column<float>(type: "REAL", nullable: false),
                     InvoiceDate = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
@@ -42,7 +41,8 @@ namespace InvoiceApp.Migrations
                 columns: table => new
                 {
                     InvoiceId = table.Column<int>(type: "INTEGER", nullable: false),
-                    ItemId = table.Column<int>(type: "INTEGER", nullable: false)
+                    ItemId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Amount = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -60,6 +60,31 @@ namespace InvoiceApp.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.InsertData(
+                table: "Items",
+                columns: new[] { "Id", "Itemname", "itemprice" },
+                values: new object[] { 49, "Milk", 40f });
+
+            migrationBuilder.InsertData(
+                table: "Items",
+                columns: new[] { "Id", "Itemname", "itemprice" },
+                values: new object[] { 50, "Rice", 50f });
+
+            migrationBuilder.InsertData(
+                table: "Items",
+                columns: new[] { "Id", "Itemname", "itemprice" },
+                values: new object[] { 51, "cheese", 20f });
+
+            migrationBuilder.InsertData(
+                table: "Items",
+                columns: new[] { "Id", "Itemname", "itemprice" },
+                values: new object[] { 52, "Apples", 100f });
+
+            migrationBuilder.InsertData(
+                table: "Items",
+                columns: new[] { "Id", "Itemname", "itemprice" },
+                values: new object[] { 53, "orange", 70f });
 
             migrationBuilder.CreateIndex(
                 name: "IX_InvoiceItems_ItemId",

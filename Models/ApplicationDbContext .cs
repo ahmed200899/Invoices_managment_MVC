@@ -22,11 +22,22 @@ namespace InvoiceApp.Models
                 .HasOne(ii => ii.Item)
                 .WithMany(i => i.InvoiceItems)
                 .HasForeignKey(ii => ii.ItemId);
+
+
+            modelBuilder.Entity<item>().HasData(
+                    new item{Id = '1', Itemname = "Milk", itemprice = 40},
+                    new item{Id = '2', Itemname = "Rice", itemprice = 50},
+                    new item{Id = '3', Itemname = "cheese", itemprice = 20},
+                    new item{Id = '4', Itemname = "Apples", itemprice = 100},
+                    new item{Id = '5', Itemname = "orange", itemprice=70}
+                );            
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             {
                 optionsBuilder.UseSqlite("Filename=invoice.db");
+
             }
+
 
     }
 }

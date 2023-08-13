@@ -9,6 +9,9 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+
 
 namespace InvoiceApp
 {
@@ -25,6 +28,12 @@ namespace InvoiceApp
         {
             services.AddControllersWithViews();
             services.AddDbContext<ApplicationDbContext>();
+            
+            services.AddLogging(builder =>
+            {
+                builder.AddConsole(); // Adds console logging
+                builder.AddDebug();   // Adds debug logging
+            });
 
         }
 

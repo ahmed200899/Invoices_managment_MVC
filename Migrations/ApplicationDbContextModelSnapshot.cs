@@ -22,9 +22,6 @@ namespace InvoiceApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Amount")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Customer")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -46,6 +43,9 @@ namespace InvoiceApp.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("ItemId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Amount")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("InvoiceId", "ItemId");
@@ -70,6 +70,38 @@ namespace InvoiceApp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Items");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 49,
+                            Itemname = "Milk",
+                            itemprice = 40f
+                        },
+                        new
+                        {
+                            Id = 50,
+                            Itemname = "Rice",
+                            itemprice = 50f
+                        },
+                        new
+                        {
+                            Id = 51,
+                            Itemname = "cheese",
+                            itemprice = 20f
+                        },
+                        new
+                        {
+                            Id = 52,
+                            Itemname = "Apples",
+                            itemprice = 100f
+                        },
+                        new
+                        {
+                            Id = 53,
+                            Itemname = "orange",
+                            itemprice = 70f
+                        });
                 });
 
             modelBuilder.Entity("InvoiceApp.Models.InvoiceItem", b =>
