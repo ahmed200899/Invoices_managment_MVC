@@ -7,6 +7,7 @@
 
 }
 
+
 <h2>Add Invoice</h2>
 
 @using (Html.BeginForm())
@@ -100,14 +101,16 @@
 
     var itemPriceValue = 0;
     var totalPrice = 0; 
-
+    var viewState = {
+    selectedId: null
+};
 
     function SelectedValue(selecteditem) 
     {
         var selecteditemname = selecteditem.options[selecteditem.selectedIndex].innerHTML;
-        var selectedId = selecteditem.value;
+        viewState.selectedId = selecteditem.value;
         var targetItem = itemsList.find(function(item) {
-            return item.id === parseInt(selectedId);
+            return item.id === parseInt(viewState.selectedId);
         });
         var selectedprice = parseFloat(targetItem.itemprice);
 
@@ -115,7 +118,6 @@
         itemPriceValue = parseFloat(selectedprice);
         UpdatePrice(); 
         window.selectedItemName = selecteditemname;
-        window.selectedid = selectedId
     }
 
 
@@ -190,12 +192,13 @@
                 var item_Name = cells[0].innerHTML;
                 var amount = parseFloat(cells[1].innerHTML);
                 var item_price = parseFloat(cells[2].innerHTML);
-                var ItemId = window.selectedId;
+                var ItemId = viewState.selectedId;
 
+                console.log(ItemId);
                 var invoiceItem = {
                     InvoiceId: id, 
                     Amount: amount,
-                    item_Name:item_Name                
+                    ItemId:ItemId                
                     };
 
                 invoiceItems.push(invoiceItem);
@@ -213,7 +216,7 @@
                         InvoiceDate: invoiceDate,
                         invoiceItems:invoiceItems
                     },success: function (response) {
-                        console.log("Response received:", response);
+                        window.location.href = "Index";
                     },
 
 

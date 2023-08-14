@@ -79,7 +79,7 @@ public class InvoiceController : Controller
                 InvoiceItem newinvoiceItem = new InvoiceItem();
                 newinvoiceItem.InvoiceId = newinvoice.Id; 
                 newinvoiceItem.Amount = item.Amount;         
-                newinvoiceItem.ItemId = _context.Items.FirstOrDefault(i=>i.Itemname ==item.item_Name ).Id;
+                newinvoiceItem.ItemId = item.ItemId;
 
                 _context.InvoiceItems.Add(newinvoiceItem);
                 _context.SaveChanges();
@@ -87,7 +87,7 @@ public class InvoiceController : Controller
 
 
             string result = $"Received float: {totalprice}, string: {Customer}, int: {Id}, Date: {InvoiceDate}";
-            return Content(result);
+            return RedirectToAction("Index");
             
 
 
