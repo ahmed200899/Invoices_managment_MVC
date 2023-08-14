@@ -193,7 +193,6 @@
                 var amount = parseFloat(cells[1].innerHTML);
                 var item_price = parseFloat(cells[2].innerHTML);
                 var ItemId = viewState.selectedId;
-                console.log(ItemId)
                 var invoiceItem = {
                     InvoiceId: id, 
                     Amount: amount,
@@ -215,7 +214,13 @@
                         Id :id,
                         InvoiceDate: invoiceDate,
                         invoiceItems:invoiceItems
-                    }
+                    },
+                        success: function (response) {
+                            window.location.href = "Index";
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error);
+                        }
 
 
             });
