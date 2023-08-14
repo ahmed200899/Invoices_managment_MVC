@@ -1,3 +1,4 @@
+using System;
 using Microsoft.EntityFrameworkCore;
 
 namespace InvoiceApp.Models
@@ -30,7 +31,9 @@ namespace InvoiceApp.Models
                     new item{Id = '3', Itemname = "cheese", itemprice = 20},
                     new item{Id = '4', Itemname = "Apples", itemprice = 100},
                     new item{Id = '5', Itemname = "orange", itemprice=70}
-                );            
+                );   
+
+   
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             {

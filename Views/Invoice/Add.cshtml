@@ -1,8 +1,10 @@
 @model InvoiceApp.Models.CreateInvoiceViewModel
+@Html.ValidationSummary()
 
 @{
     ViewBag.Title = "Add Invoice";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
 }
 
 <h2>Add Invoice</h2>
@@ -86,20 +88,36 @@
 
 </style>
 
+
+
+<script>
+    var itemsList = @Html.Raw(Json.Serialize(ViewBag.itemslist));
+</script>
+  
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
 
     var itemPriceValue = 0;
     var totalPrice = 0; 
+
+
     function SelectedValue(selecteditem) 
     {
         var selecteditemname = selecteditem.options[selecteditem.selectedIndex].innerHTML;
-        var selectedprice = selecteditem.value;
+        var selectedId = selecteditem.value;
+        var targetItem = itemsList.find(function(item) {
+            return item.id === parseInt(selectedId);
+        });
+        var selectedprice = parseFloat(targetItem.itemprice);
+
         document.getElementById("ItemPrice").value = selectedprice;
         itemPriceValue = parseFloat(selectedprice);
         UpdatePrice(); 
         window.selectedItemName = selecteditemname;
+        window.selectedid = selectedId
     }
+
 
     function UpdatePrice() 
     {
@@ -107,6 +125,8 @@
         var Price = amount * itemPriceValue; 
         document.getElementById("Price").value = Price.toFixed(2); 
     }
+
+
 
     window.onload = function () 
      {
@@ -142,11 +162,14 @@
         document.getElementById("Price").value = itemPriceValue.toFixed(2);
     }
 
+
+
     function UpdateTotalprice() 
     {
         var totalpriceElement = document.getElementById("totalprice");
         totalpriceElement.innerHTML = "Total Price: " + totalPrice.toFixed(2);
     }
+
 
 
     $(document).ready(function () 
@@ -157,21 +180,42 @@
             var customer = $("#Invoice_Customer").val();
             var id = $("#Invoice_Id").val();
             var invoiceDate = $("#Invoice_InvoiceDate").val();
+            var invoiceItems = [];
+
+
+            var tableBody = document.getElementById("itemTable").getElementsByTagName("tbody")[0];
+            var rows = tableBody.getElementsByTagName("tr");
+            for (var i = 0; i < rows.length; i++) {
+                var cells = rows[i].getElementsByTagName("td");
+                var item_Name = cells[0].innerHTML;
+                var amount = parseFloat(cells[1].innerHTML);
+                var item_price = parseFloat(cells[2].innerHTML);
+                var ItemId = window.selectedId;
+
+                var invoiceItem = {
+                    InvoiceId: id, 
+                    Amount: amount,
+                    item_Name:item_Name                
+                    };
+
+                invoiceItems.push(invoiceItem);
+            }
 
             $.ajax
             ({
-                url: "/Invoice/ActionName",
+                url: "/Invoice/AddInvoice",
                 type: "POST",
                 data: 
                     {
                         totalprice: totalprice,
                         Customer: customer,
                         Id :id,
-                        InvoiceDate: invoiceDate
+                        InvoiceDate: invoiceDate,
+                        invoiceItems:invoiceItems
                     },success: function (response) {
-                        // Handle the response from the server
                         console.log("Response received:", response);
                     },
+
 
             });
         });

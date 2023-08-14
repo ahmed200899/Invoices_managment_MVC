@@ -21,8 +21,8 @@
     {
         <tr>
             <td>@invoice.Id</td>
-            <td>@invoice.InvoiceDate</td>
             <td>@invoice.Customer</td>
+            <td>@invoice.InvoiceDate.ToString("yyyy-MM-dd")</td>
             <td>@invoice.TotalPrice</td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = invoice.Id }) |
@@ -31,6 +31,17 @@
         </tr>
     }
 </table>
+
+<style>
+    th {
+        text-align: center;
+        padding: 10px; 
+    }
+    td {
+        text-align: center;
+        padding: 10px; 
+    }
+</style>
 
 <div class="pagination">
     @for (int i = 1; i <= ViewBag.TotalPages; i++)

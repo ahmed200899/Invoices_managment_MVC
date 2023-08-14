@@ -6,6 +6,7 @@ namespace InvoiceApp.Models
         public Invoice Invoice { get; set; }
         
         public int Amount { get; set; }
+
         public int ItemId { get; set; }
         public item Item { get; set; }
 

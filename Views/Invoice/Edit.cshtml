@@ -23,16 +23,38 @@
     </div>
 
 
+
+
+
+
+
+
     <button type="submit">Save Changes</button>
 }
 
 @Html.ActionLink("Back to List", "Index")
 
+<style>
 
-//<script>
-//    $(document).ready(function () {
- //       $('#addItemButton').click(function () {
-  //          window.location.href = '@Url.Action("AddItem", "YourControllerName")';
-   //     });
-    //});
-//</script>
+
+    #ItemPrice 
+    {
+        width: 80px;
+    }
+
+    .total-price
+    {
+        font-size: 16px;
+        font-weight: bold;        
+    }
+
+</style>
+
+<script>
+        function UpdatePrice() 
+    {
+        var amount = parseFloat(document.getElementById("Amount").value);
+        var Price = amount * itemPriceValue; 
+        document.getElementById("Price").value = Price.toFixed(2); 
+    }
+</script>

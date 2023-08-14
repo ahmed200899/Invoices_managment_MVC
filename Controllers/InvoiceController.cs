@@ -40,46 +40,30 @@ public class InvoiceController : Controller
     {
         var  groceryItems  = _context.Items.ToList(); 
 
-        ViewBag.GroceryItems =  new SelectList(groceryItems , "itemprice", "Itemname"); 
+        List<item> itemList = _context.Items
+        .Select(dbItem => new item
+        {
+            Id = dbItem.Id,
+            Itemname = dbItem.Itemname,
+            itemprice = dbItem.itemprice
+        })
+        .ToList();
+
+        ViewBag.itemslist = itemList;
+        ViewBag.GroceryItems =  new SelectList(groceryItems , "Id", "Itemname"); 
         return View();
     }
 
 
 
-
     [HttpPost]
-    public async Task<IActionResult> SaveInvoice()
-    {
-        try
+    public  ActionResult  AddInvoice(float totalprice,string Customer, int Id, DateTime InvoiceDate,List<test> invoiceItems )
         {
-            return  RedirectToAction("Index");
-        }
-        catch (Exception ex)
-        {
-            return BadRequest();
-        }
-    }
-
-
-
-    public async Task<IActionResult> Edit(int id)
-    {
-         var invoice = await _context.Invoices.FindAsync(id);
-        if (invoice == null)
-        {
-            return NotFound();
-        }
-        return View(invoice);
-    }
-
-
-
-
-
-
-    [HttpPost]
-    public ActionResult ActionName(float totalprice,string Customer, int Id, DateTime InvoiceDate)
-        {
+            if(!ModelState.IsValid)
+            {
+            return BadRequest(ModelState);
+            }
+            
             Invoice newinvoice = new Invoice
             {
                 Id = Id,
@@ -89,19 +73,35 @@ public class InvoiceController : Controller
             };
             _context.Invoices.Add(newinvoice);
             _context.SaveChanges();
+
+            foreach(var item in invoiceItems)
+            {
+                InvoiceItem newinvoiceItem = new InvoiceItem();
+                newinvoiceItem.InvoiceId = newinvoice.Id; 
+                newinvoiceItem.Amount = item.Amount;         
+                newinvoiceItem.ItemId = _context.Items.FirstOrDefault(i=>i.Itemname ==item.item_Name ).Id;
+
+                _context.InvoiceItems.Add(newinvoiceItem);
+                _context.SaveChanges();
+            }
+
+
             string result = $"Received float: {totalprice}, string: {Customer}, int: {Id}, Date: {InvoiceDate}";
             return Content(result);
+            
+
+
         }
 
-
-
-
-
-
-
-
-
-
+    public async Task<IActionResult> Edit(int id)
+    {
+        var invoice = await _context.Invoices.FindAsync(id);
+        if (invoice == null)
+        {
+            return NotFound();
+        }
+        return View(invoice);
+    }
 
     [HttpPost]
     public async Task<IActionResult> Edit(Invoice updatedInvoice)
@@ -114,6 +114,7 @@ public class InvoiceController : Controller
         }
         return View(updatedInvoice);
     }
+
 
     public async Task<IActionResult> Delete(int id)
     {

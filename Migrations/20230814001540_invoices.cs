@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace InvoiceApp.Migrations
 {
-    public partial class invoice : Migration
+    public partial class invoices : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
