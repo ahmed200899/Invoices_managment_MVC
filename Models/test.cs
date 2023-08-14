@@ -7,6 +7,6 @@ namespace InvoiceApp.Models
     {
         public int InvoiceItemId { get; set; }
         public int Amount { get; set; }
-        public int ItemId { get; set; }
+        public string item_Name { get; set; }
     }
 }

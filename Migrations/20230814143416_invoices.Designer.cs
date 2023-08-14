@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InvoiceApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230814001540_invoices")]
+    [Migration("20230814143416_invoices")]
     partial class invoices
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

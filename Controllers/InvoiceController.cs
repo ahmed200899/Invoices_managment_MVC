@@ -79,7 +79,7 @@ public class InvoiceController : Controller
                 InvoiceItem newinvoiceItem = new InvoiceItem();
                 newinvoiceItem.InvoiceId = newinvoice.Id; 
                 newinvoiceItem.Amount = item.Amount;         
-                newinvoiceItem.ItemId = item.ItemId;
+                newinvoiceItem.ItemId = _context.Items.FirstOrDefault(i=>i.Itemname == item.item_Name).Id;
 
                 _context.InvoiceItems.Add(newinvoiceItem);
                 _context.SaveChanges();
@@ -131,10 +131,14 @@ public class InvoiceController : Controller
     public async Task<IActionResult> ConfirmDelete(int id)
     {
         var invoice = await _context.Invoices.FindAsync(id);
+        var invoiceitem =  _context.InvoiceItems
+                                        .Where(i=>i.InvoiceId == id)
+                                        .ToList();
         if (invoice == null)
         {
             return NotFound();
         }
+        _context.InvoiceItems.RemoveRange(invoiceitem);
         _context.Invoices.Remove(invoice);
         await _context.SaveChangesAsync();
         return RedirectToAction("Index");
