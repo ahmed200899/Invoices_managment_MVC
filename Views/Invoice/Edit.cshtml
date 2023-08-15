@@ -250,6 +250,16 @@ $(document).ready(function ()
     {
         $("#SaveInvoiceButton").click(function () 
         {
+            update_totalprice();
+            var total = 0 
+            for (i = 0 ; i<viewState.price_boxes.length; i++)
+            {
+                total = total + parseInt(viewState.price_boxes[i]);
+            }
+            document.getElementById("TotalPrice").value = total.toString(); 
+            viewState.price_boxes = [];
+            viewState.totalPrice = total;
+
             var totalprice =viewState.totalPrice
             var customer = $("#Invoice_Customer").val();
             var id = @ViewBag.i_nvoice_id;

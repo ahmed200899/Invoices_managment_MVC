@@ -59,10 +59,7 @@ public class InvoiceController : Controller
     [HttpPost]
     public  ActionResult  AddInvoice(float totalprice,string Customer, int Id, DateTime InvoiceDate,List<Holder> invoiceItems )
         {
-            if(!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+
             
             Invoice newinvoice = new Invoice
             {
@@ -130,10 +127,7 @@ public class InvoiceController : Controller
     [HttpPost]
    public  ActionResult  Edit(float totalprice,string Customer, int Id, DateTime InvoiceDate,List<Holder> invoiceItems )
         {
-            if(!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+
 
             var current_invoice = _context.Invoices.Find(Id);
             current_invoice.Customer = Customer;
