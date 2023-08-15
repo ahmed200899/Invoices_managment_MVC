@@ -30,7 +30,7 @@
     <div class="form-group">
 
         <label for="SelectedItemIds">Select Items:</label>
-        @Html.DropDownListFor(model => model.AvailableItems,ViewBag.groceryItems as SelectList,  new { @class = "form-control", @onChange  =  "SelectedValue(this)"} )
+        @Html.DropDownListFor(model => model.AvailableItems,ViewBag.groceryItems as SelectList,"Select an item" , new { @class = "form-control", @onChange  =  "SelectedValue(this)"} )
 
         <label for "itemprice"> Item Price</label>
         <input type="text" id="ItemPrice" class="form-control" readonly> 

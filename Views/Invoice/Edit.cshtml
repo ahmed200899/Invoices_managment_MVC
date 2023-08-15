@@ -44,7 +44,7 @@
 
                 <tr>
                     <td>
-                        @Html.DropDownListFor(m => m.SelectedValue, (SelectList)ViewBag.GroceryItems2, new { @id = "myDropdown-" + @j,@class = "dynamic-dropdown" })
+                        @Html.DropDownListFor(m => m.SelectedValue, (SelectList)ViewBag.GroceryItems2 ,new { @id = "myDropdown-" + @j,@class = "dynamic-dropdown" })
                         <script>
                             var dropdown = document.getElementById('myDropdown-@j');
                             console.log(dropdown);

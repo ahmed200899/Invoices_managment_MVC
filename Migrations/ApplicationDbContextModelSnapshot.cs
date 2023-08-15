@@ -24,6 +24,7 @@ namespace InvoiceApp.Migrations
 
                     b.Property<string>("Customer")
                         .IsRequired()
+                        .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("InvoiceDate")

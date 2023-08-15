@@ -13,7 +13,7 @@ namespace InvoiceApp.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Customer = table.Column<string>(type: "TEXT", nullable: false),
+                    Customer = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
                     TotalPrice = table.Column<float>(type: "REAL", nullable: false),
                     InvoiceDate = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
