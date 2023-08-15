@@ -57,11 +57,11 @@ public class InvoiceController : Controller
 
 
     [HttpPost]
-    public  ActionResult  AddInvoice(float totalprice,string Customer, int Id, DateTime InvoiceDate,List<test> invoiceItems )
+    public  ActionResult  AddInvoice(float totalprice,string Customer, int Id, DateTime InvoiceDate,List<Holder> invoiceItems )
         {
             if(!ModelState.IsValid)
             {
-            return BadRequest(ModelState);
+                return BadRequest(ModelState);
             }
             
             Invoice newinvoice = new Invoice
@@ -86,7 +86,6 @@ public class InvoiceController : Controller
             }
 
 
-            string result = $"Received float: {totalprice}, string: {Customer}, int: {Id}, Date: {InvoiceDate}";
             return RedirectToAction("Index");
             
 
@@ -95,12 +94,15 @@ public class InvoiceController : Controller
     public async Task<IActionResult> Edit(int id)
     {
         var invoice = await _context.Invoices.FindAsync(id);
+
         var invoiceitem =  _context.InvoiceItems
                                 .Where(i=>i.InvoiceId == id)
                                 .ToList();
 
+
         var  items  = _context.Items.ToList();
-               
+
+
         List<item> itemList2 = _context.Items
         .Select(dbItem => new item
         {
@@ -109,6 +111,7 @@ public class InvoiceController : Controller
             itemprice = dbItem.itemprice
         })
         .ToList();
+
 
         viewmodel viewmodel = new viewmodel();
         viewmodel.invoice = invoice;
@@ -123,13 +126,13 @@ public class InvoiceController : Controller
         return View(viewmodel);
     }
 
-    [HttpPost]
 
-   public  ActionResult  Edit(float totalprice,string Customer, int Id, DateTime InvoiceDate,List<test> invoiceItems )
+    [HttpPost]
+   public  ActionResult  Edit(float totalprice,string Customer, int Id, DateTime InvoiceDate,List<Holder> invoiceItems )
         {
             if(!ModelState.IsValid)
             {
-            return BadRequest(ModelState);
+                return BadRequest(ModelState);
             }
 
             var current_invoice = _context.Invoices.Find(Id);
@@ -146,7 +149,7 @@ public class InvoiceController : Controller
             _context.InvoiceItems.RemoveRange(invoiceitem);
             _context.SaveChanges();
 
-            foreach(test item in invoiceItems)
+            foreach(Holder item in invoiceItems)
             {
                 InvoiceItem newinvoiceItem = new InvoiceItem();
                 newinvoiceItem.InvoiceId = current_invoice.Id; 
@@ -158,7 +161,6 @@ public class InvoiceController : Controller
             }
 
 
-            string result = $"Received float: {totalprice}, string: {Customer}, int: {Id}, Date: {InvoiceDate}";
             return RedirectToAction("Index");
             
 

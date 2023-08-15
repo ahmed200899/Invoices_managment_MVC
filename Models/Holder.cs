@@ -3,7 +3,7 @@ using System.Collections.Generic;
 namespace InvoiceApp.Models
 
 {
-    public class test
+    public class Holder
     {
         public int InvoiceItemId { get; set; }
         public int Amount { get; set; }

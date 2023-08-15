@@ -30,8 +30,8 @@ namespace InvoiceApp
             
             services.AddLogging(builder =>
             {
-                builder.AddConsole(); // Adds console logging
-                builder.AddDebug();   // Adds debug logging
+                builder.AddConsole(); 
+                builder.AddDebug();   
             });
 
         }
