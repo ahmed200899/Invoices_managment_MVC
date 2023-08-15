@@ -92,28 +92,79 @@ public class InvoiceController : Controller
 
 
         }
-
     public async Task<IActionResult> Edit(int id)
     {
         var invoice = await _context.Invoices.FindAsync(id);
-        if (invoice == null)
+        var invoiceitem =  _context.InvoiceItems
+                                .Where(i=>i.InvoiceId == id)
+                                .ToList();
+
+        var  items  = _context.Items.ToList();
+               
+        List<item> itemList2 = _context.Items
+        .Select(dbItem => new item
         {
-            return NotFound();
-        }
-        return View(invoice);
+            Id = dbItem.Id,
+            Itemname = dbItem.Itemname,
+            itemprice = dbItem.itemprice
+        })
+        .ToList();
+
+        viewmodel viewmodel = new viewmodel();
+        viewmodel.invoice = invoice;
+        viewmodel.invoiceiteme = invoiceitem;
+        viewmodel.items = items;
+
+        ViewBag.GroceryItems2 =  new SelectList(items , "Id", "Itemname"); 
+        ViewBag.itemslist2 = itemList2; 
+        ViewBag.i_nvoice_id = id;             
+
+
+        return View(viewmodel);
     }
 
     [HttpPost]
-    public async Task<IActionResult> Edit(Invoice updatedInvoice)
-    {
-        if (ModelState.IsValid)
+
+   public  ActionResult  Edit(float totalprice,string Customer, int Id, DateTime InvoiceDate,List<test> invoiceItems )
         {
-            _context.Update(updatedInvoice);
-            await _context.SaveChangesAsync();
+            if(!ModelState.IsValid)
+            {
+            return BadRequest(ModelState);
+            }
+
+            var current_invoice = _context.Invoices.Find(Id);
+            current_invoice.Customer = Customer;
+            current_invoice.TotalPrice=totalprice;
+            current_invoice.InvoiceDate = InvoiceDate;
+
+            _context.SaveChanges();
+
+            var invoiceitem =  _context.InvoiceItems
+                                        .Where(i=>i.InvoiceId == Id )
+                                        .ToList();
+
+            _context.InvoiceItems.RemoveRange(invoiceitem);
+            _context.SaveChanges();
+
+            foreach(test item in invoiceItems)
+            {
+                InvoiceItem newinvoiceItem = new InvoiceItem();
+                newinvoiceItem.InvoiceId = current_invoice.Id; 
+                newinvoiceItem.Amount = item.Amount;         
+                newinvoiceItem.ItemId = _context.Items.FirstOrDefault(i=>i.Itemname == item.item_Name).Id;
+
+                _context.InvoiceItems.Add(newinvoiceItem);
+                _context.SaveChanges();
+            }
+
+
+            string result = $"Received float: {totalprice}, string: {Customer}, int: {Id}, Date: {InvoiceDate}";
             return RedirectToAction("Index");
+            
+
+
         }
-        return View(updatedInvoice);
-    }
+
 
 
     public async Task<IActionResult> Delete(int id)
@@ -134,6 +185,8 @@ public class InvoiceController : Controller
         var invoiceitem =  _context.InvoiceItems
                                         .Where(i=>i.InvoiceId == id)
                                         .ToList();
+
+        
         if (invoice == null)
         {
             return NotFound();
@@ -143,4 +196,7 @@ public class InvoiceController : Controller
         await _context.SaveChangesAsync();
         return RedirectToAction("Index");
     }
+
+
+
 }
